@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
-import { View, ScrollView, StyleSheet } from 'react-native';
-import { Header } from '../Header/Header';
+import { ScrollView, StyleSheet } from 'react-native';
 import { PokemonPreview } from './PokemonPreview/PokemonPreview';
 
-export const MainScreen = () => {
+export const MainScreen = ({navigation}) => {
     const [pokemons, setPokemons] = useState([]);
 
     useEffect(() => {
@@ -13,12 +12,9 @@ export const MainScreen = () => {
     }, []); 
 
     return (
-        <View>
-            <Header/>
-            <ScrollView contentContainerStyle={styles.container}>
-                {pokemons.map(p => <PokemonPreview key={p.name} pokemon={p}/>)}
-            </ScrollView>
-        </View>
+        <ScrollView contentContainerStyle={styles.container}>
+            {pokemons.map(p => <PokemonPreview key={p.name} pokemon={p} navigation={navigation}/>)}
+        </ScrollView>
     )
 }
 
@@ -26,6 +22,6 @@ const styles = StyleSheet.create({
     container: {
         flexWrap: 'wrap',
         flexDirection: 'row',
-        paddingBottom: 50
+        paddingBottom: 10
     }
 });

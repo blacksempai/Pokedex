@@ -1,6 +1,6 @@
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
-export const PokemonPreview = ({pokemon}) => {
+export const PokemonPreview = ({pokemon, navigation}) => {
 
     const getImgLink = () => {
         const pathArray = pokemon.url.split('/');
@@ -8,9 +8,13 @@ export const PokemonPreview = ({pokemon}) => {
         return `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${id}.png`;
     }
 
+    const navigateToPokemon = () => {
+        navigation.navigate('Pokemon', pokemon);            
+    }
+
     return (
         <View style={styles.card_wrapper}>
-            <View style={styles.card}>
+            <TouchableOpacity style={styles.card} onPress={navigateToPokemon}>
                 <Image source={{uri: getImgLink()}} blurRadius={35} style={{
                     position: 'absolute',
                     top: -250,
@@ -22,7 +26,7 @@ export const PokemonPreview = ({pokemon}) => {
                 }}/>
                 <Image style={styles.img} source={{uri: getImgLink()}}/>
                 <Text style={styles.text}>{pokemon.name}</Text>
-            </View>
+            </TouchableOpacity>
         </View>
     )
 }
