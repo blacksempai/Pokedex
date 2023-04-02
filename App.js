@@ -1,7 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
-import { Text, View } from 'react-native';
 import { MainScreen } from './components/MainScreen/MainScreen';
 import { useFonts } from 'expo-font';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
 
@@ -14,9 +17,11 @@ export default function App() {
   }
   
   return (
-    <View>
-      <MainScreen/>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={MainScreen} />
+      </Stack.Navigator>
       <StatusBar style="auto" />
-    </View>
+    </NavigationContainer>
   );
 }
