@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { types } from './PokemonTypes.domain';
-export {types} from './PokemonTypes.domain';
 
 export const Pokemon = ({route, navigation}) => {
     const {name, url} = route.params;
@@ -36,17 +35,14 @@ export const Pokemon = ({route, navigation}) => {
             <Text style={styles.pokemon_name}>{name}</Text>
             <View style={styles.types_container}>
                 {pokemon.types.map(t => 
-                    <Text key={t.slot} style={{
+                    <View key={t.slot} style={{
                         backgroundColor: types.get(t.type.name),
-                        fontSize: 20,
                         width: 125,
                         height: 30,
-                        borderRadius: 14,
-                        color: '#fff',
-                        textAlign: 'center'
+                        borderRadius: 14
                     }}>
-                        {t.type.name}
-                    </Text>
+                        <Text style={{fontSize: 20, color: '#fff', textAlign: 'center', textTransform: 'lowercase'}}>{t.type.name}</Text>
+                    </View>
                 )}
             </View>
             <View style={styles.params_container}>
@@ -58,6 +54,58 @@ export const Pokemon = ({route, navigation}) => {
                     <Text style={styles.param_text_main}>{pokemon.height} M</Text>
                     <Text style={styles.param_text_sub}>Height</Text>
                 </View>
+            </View>
+            <Text style={styles.stats_title}>Base Stats</Text>
+            <View style={styles.stats_container}>
+
+                <View style={styles.stats_item}>
+                    <Text style={styles.stats_item_text}>HP </Text>
+                    <View style={styles.stats_item_bar}>
+                        <View style={{
+                            height: '100%',
+                            borderRadius: 8,
+                            backgroundColor: 'red',
+                            width: pokemon.stats[0].base_stat
+                        }}>
+                            <Text style={styles.stats_item_bar_text}>
+                                {pokemon.stats[0].base_stat}
+                            </Text>
+                        </View>
+                    </View>
+                </View>
+
+                <View style={styles.stats_item}>
+                    <Text style={styles.stats_item_text}>ATK</Text>
+                    <View style={styles.stats_item_bar}>
+                        <View style={{
+                            height: '100%',
+                            borderRadius: 8,
+                            backgroundColor: 'orange',
+                            width: pokemon.stats[1].base_stat
+                        }}>
+                            <Text style={styles.stats_item_bar_text}>
+                                {pokemon.stats[1].base_stat}
+                            </Text>
+                        </View>
+                    </View>
+                </View>
+
+                <View style={styles.stats_item}>
+                    <Text style={styles.stats_item_text}>DEF</Text>
+                    <View style={styles.stats_item_bar}>
+                        <View style={{
+                            height: '100%',
+                            borderRadius: 8,
+                            backgroundColor: 'lightblue',
+                            width: pokemon.stats[2].base_stat
+                        }}>
+                            <Text style={styles.stats_item_bar_text}>
+                                {pokemon.stats[2].base_stat}
+                            </Text>
+                        </View>
+                    </View>
+                </View>             
+
             </View>
         </View>
     )
@@ -124,5 +172,37 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#aaa',
         textAlign: 'center'
+    },
+    stats_title: {
+        textAlign: 'center',
+        fontSize: 26,
+        fontWeight: 'bold'
+    },
+    stats_container: {
+        paddingTop: 10
+    },
+    stats_item: {
+        flexDirection: 'row',
+        padding: 5,
+        alignItems: 'center',
+        justifyContent: 'space-around'
+    },
+    stats_item_text: {
+        fontSize: 18,
+        color: 'grey'
+    },
+    stats_item_bar: {
+        width: 255,
+        height: 20,
+        borderStyle: 'solid',
+        borderColor: 'grey',
+        borderWidth: 1,
+        borderRadius: 10
+    },
+    stats_item_bar_text: {
+        fontSize: 12,
+        color: '#ffffff',
+        textAlign: 'right',
+        paddingRight: 6
     }
 });
