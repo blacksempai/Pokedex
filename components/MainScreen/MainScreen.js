@@ -1,20 +1,32 @@
 import { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { PokemonPreview } from './PokemonPreview/PokemonPreview';
+import { Pagination } from './Pagination/Pagination';
 
 export const MainScreen = ({navigation}) => {
-    const [pokemons, setPokemons] = useState([]);
+    const [pokemons, setPokemons] = useState({results:[]});
 
-    useEffect(() => {
-        fetch('https://pokeapi.co/api/v2/pokemon')
+    const getPokemons = (url) => {
+        if(url) {
+            fetch(url)
             .then(response => response.json())
-            .then(data => setPokemons(data.results || []));
-    }, []); 
+            .then(data => setPokemons(data || {results:[]}));
+        }
+    }
+
+    const next = () => getPokemons(pokemons?.next);
+
+    const prev = () => getPokemons(pokemons?.previous);
+
+    useEffect(() => getPokemons('https://pokeapi.co/api/v2/pokemon'), []);
 
     return (
-        <ScrollView contentContainerStyle={styles.container}>
-            {pokemons.map(p => <PokemonPreview key={p.name} pokemon={p} navigation={navigation}/>)}
-        </ScrollView>
+        <View>
+            <Pagination next={next} prev={prev}/>
+            <ScrollView contentContainerStyle={styles.container}>
+                {pokemons?.results?.map(p => <PokemonPreview key={p.name} pokemon={p} navigation={navigation}/>)}
+            </ScrollView>
+        </View>
     )
 }
 
@@ -22,6 +34,6 @@ const styles = StyleSheet.create({
     container: {
         flexWrap: 'wrap',
         flexDirection: 'row',
-        paddingBottom: 10
+        paddingBottom: 50
     }
 });

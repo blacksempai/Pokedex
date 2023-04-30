@@ -1,9 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { MainScreen } from './components/MainScreen/MainScreen';
 import { useFonts } from 'expo-font';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, useColorScheme } from 'react-native';
 import { Pokemon } from './components/Pokemon/Pokemon';
 
 const Stack = createNativeStackNavigator();
@@ -14,12 +14,14 @@ export default function App() {
     Pokemon: require('./assets/fonts/Pokemon.ttf')
   });
 
+  const scheme = useColorScheme();
+
   if (!loaded) {
     return null;
   }
   
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack.Navigator>
         
         <Stack.Screen name="Home" 
