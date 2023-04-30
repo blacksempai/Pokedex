@@ -5,6 +5,7 @@ import { Pagination } from './Pagination/Pagination';
 
 export const MainScreen = ({navigation}) => {
     const [pokemons, setPokemons] = useState({results:[]});
+    const [limit, setLimit] = useState('20');
 
     const getPokemons = (url) => {
         if(url) {
@@ -14,15 +15,21 @@ export const MainScreen = ({navigation}) => {
         }
     }
 
+    const requestPokemonsWithLimit = () => {
+        getPokemons('https://pokeapi.co/api/v2/pokemon?limit='+limit);
+    }
+
     const next = () => getPokemons(pokemons?.next);
 
     const prev = () => getPokemons(pokemons?.previous);
 
-    useEffect(() => getPokemons('https://pokeapi.co/api/v2/pokemon'), []);
+    const last = () => getPokemons(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${pokemons.count-limit}`);
+
+    useEffect(requestPokemonsWithLimit, []);
 
     return (
         <View>
-            <Pagination next={next} prev={prev}/>
+            <Pagination last={last} next={next} prev={prev} limit={limit} setLimit={setLimit} onLimitSubmit={requestPokemonsWithLimit}/>
             <ScrollView contentContainerStyle={styles.container}>
                 {pokemons?.results?.map(p => <PokemonPreview key={p.name} pokemon={p} navigation={navigation}/>)}
             </ScrollView>
