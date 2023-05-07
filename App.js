@@ -5,6 +5,7 @@ import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet, useColorScheme } from 'react-native';
 import { Pokemon } from './components/Pokemon/Pokemon';
+import { Search } from './components/Search/Search';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,8 @@ export default function App() {
         options={{title: 'Pokedex', headerStyle: styles.header, headerTitleStyle: styles.text}}/>
 
         <Stack.Screen name="Pokemon" component={Pokemon}/>
+
+        <Stack.Screen name="Search" component={Search}/>
 
       </Stack.Navigator>
       <StatusBar style="auto" />
