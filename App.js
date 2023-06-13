@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
       fontSize: 35,
       paddingLeft: 20,
       paddingBottom: 5,
-      color: '#fff',
+      color: useColorScheme() === 'dark' ? '#fff' : '#000',
       fontFamily: 'Pokemon'
   }
 });
